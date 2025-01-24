@@ -37,6 +37,10 @@
                 echo "Error saving record.";
                 }
             }
+
+            $fetchStmt = $pdo->prepare("SELECT * FROM tb_racingtimes");
+            $fetchStmt->execute();
+            $records = $fetchStmt->fetchAll(PDO::FETCH_ASSOC);
         } catch (PDOException $e) {
         echo "Database error: " . $e->getMessage();
             }
