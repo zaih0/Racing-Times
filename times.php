@@ -16,14 +16,19 @@
                 $name = htmlspecialchars($_POST['name']);
                 $time = $_POST['time'];
                 $date = date('Y-m-d'); // Get current date
+                $map = htmlspecialchars($_POST['map']);
+                $car_type =htmlspecialchars($_POST['car_type']);
 
 
 
             // Prepare SQL statement
-                $stmt = $pdo->prepare("INSERT INTO tb_racingtimes (name, time, date) VALUES (:name, :time, :date)");
+                $stmt = $pdo->prepare("INSERT INTO tb_racingtimes (name, time, date, map, car_type) VALUES (:name, :time, :date, :map, :car_type)");
                 $stmt->bindParam(':name', $name);
                 $stmt->bindParam(':time', $time);
                 $stmt->bindParam(':date', $date);
+                $stmt->bindParam(':map', $map);
+                $stmt->bindParam(':car_type', $car_type);
+
 
             // Execute the statement
                 if ($stmt->execute()) {
