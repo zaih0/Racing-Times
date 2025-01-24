@@ -17,6 +17,46 @@
     <link rel="stylesheet" href="./css/index.css">
     <title>Racing Times</title>
 </head>
+<script>
+        document.getElementById('racingForm').addEventListener('submit', function(event) {
+            event.preventDefault(); // Prevent the default form submission
+
+            const formData = new FormData(this);
+            formData.append('ajax', true);
+
+            fetch('racingtimes.php', {
+                method: 'POST',
+                body: formData,
+            })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        const table = document.getElementById('racingTable');
+                        const newRow = document.createElement('tr');
+
+                        newRow.innerHTML = `
+                            <td class="profile">
+                                <img src="https://via.placeholder.com/40" alt="User Avatar">
+                                <span class="name">${data.record.name}</span>
+                                <span class="country">${data.record.car_type}</span>
+                            </td>
+                            <td>${data.record.time}</td>
+                            <td>${data.record.car_type}</td>
+                            <td>${data.record.date}</td>
+                            <td>${data.record.map}</td>
+                        `;
+                        table.appendChild(newRow);
+                        alert('Record successfully saved.');
+                    } else {
+                        alert('Error: ' + data.error);
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('An error occurred while saving the record.');
+                });
+        });
+    </script>
 <body>
 
     <button id="btn">
@@ -39,6 +79,41 @@
 
         <button type="submit">Submit</button>
     </form>
+
+    <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Player</th>
+                        <th>Time</th>
+                        <th>Car Type</th>
+                        <th>Date</th>
+                        <th>Map</th>
+                    </tr>
+                </thead>
+                <tbody id="racingTable">
+                    <?php if (!empty($records)): ?>
+                        <?php foreach ($records as $record): ?>
+                            <tr>
+                                <td class="profile">
+                                    <img src="https://via.placeholder.com/40" alt="User Avatar">
+                                    <span class="name"><?php echo htmlspecialchars($record['name']); ?></span>
+                                    <span class="country"><?php echo strtoupper($record['car_type']); ?></span>
+                                </td>
+                                <td><?php echo htmlspecialchars($record['time']); ?></td>
+                                <td><?php echo htmlspecialchars($record['car_type']); ?></td>
+                                <td><?php echo htmlspecialchars($record['date']); ?></td>
+                                <td><?php echo htmlspecialchars($record['map']); ?></td>
+                            </tr>
+                        <?php endforeach; ?>
+                    <?php else: ?>
+                        <tr>
+                            <td colspan="5">No records found</td>
+                        </tr>
+                    <?php endif; ?>
+                </tbody>
+            </table>
+        </div>
 
 
     
