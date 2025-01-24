@@ -1,6 +1,6 @@
 <?php
     // Database connection parameters
-    $host = 'localhost'; // Replace with your DB host
+    $host = 'localhost'; // Database host
     $dbname = 'db_racetimes'; // Database name
     $username = 'root'; // Database username
     $password = 'root'; // Database password
