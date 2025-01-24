@@ -1,4 +1,7 @@
 <?php
+
+    session_start();
+
     // Database connection parameters
     $host = 'localhost'; // Database host
     $dbname = 'db_racetimes'; // Database name
@@ -32,7 +35,8 @@
 
             // Execute the statement
                 if ($stmt->execute()) {
-                echo "Record successfully saved.";
+                $_SESSION['record_saved'] = true;
+                header("Location: index.php");
                 } else {
                 echo "Error saving record.";
                 }

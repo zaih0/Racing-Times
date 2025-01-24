@@ -1,3 +1,14 @@
+<?php
+
+    session_start();
+
+    if (isset($_SESSION['record_saved'])) {
+        echo "Record saved successfully!";
+        echo "<script>alert('Record saved successfully!');</script>";
+        unset($_SESSION['record_saved']);
+    }
+
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -9,10 +20,10 @@
 <body>
 
     <button id="btn">
-        <a href="/html/signup.html">Sign up!</a>
+        <a href="../Racing-Times/html/signup.html">Sign up!</a>
     </button>
     <button>
-        <a href="/html/login.html">Login</a>
+        <a href="../Racing-Times/html/login.html">Login</a>
     </button>
 
     <form action="times.php" method="POST">
