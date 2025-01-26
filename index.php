@@ -1,12 +1,48 @@
 <?php
+session_start();
 
-    session_start();
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    if (isset($_POST["name"]) && isset($_POST["time"]) && isset($_POST["map"]) && isset($_POST["car_type"])) {
 
-    if (isset($_SESSION['record_saved'])) {
-        echo "Record saved successfully!";
-        echo "<script>alert('Record saved successfully!');</script>";
-        unset($_SESSION['record_saved']);
+        // Retrieve form data
+        $name = $_POST["name"];
+        $time = $_POST["time"];
+        $map = $_POST["map"];
+        $car_type = $_POST["car_type"];
+
+        // Insert data into the database
+        $servername = "localhost";
+        $username = "root";
+        $password = "Superpuck2000";
+        $dbname = "db_racetimes"; // Correct database name
+
+        try {
+            // Establishing a connection to the database
+            $conn = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
+            $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+            // Prepare SQL statement to insert data
+            $stmt = $conn->prepare("INSERT INTO tb_racetimes (name, time, map, car_type) VALUES (:name, :time, :map, :car_type)");
+
+            // Bind parameters to the prepared statement
+            $stmt->bindParam(':name', $name);
+            $stmt->bindParam(':time', $time);
+            $stmt->bindParam(':map', $map);
+            $stmt->bindParam(':car_type', $car_type);
+
+            // Execute the statement to insert the data
+            $stmt->execute();
+
+            echo "<h2 style='position: relative; float:left; background: red; color: white;'>added new racer!</h2>";
+
+        } catch (PDOException $e) {
+            echo "Error: " . $e->getMessage();
+        }
+
+        // Close the database connection
+        $conn = null;
     }
+}
 
 ?>
 <!DOCTYPE html>
@@ -17,105 +53,57 @@
     <link rel="stylesheet" href="./css/index.css">
     <title>Racing Times</title>
 </head>
-<script>
-        document.getElementById('racingForm').addEventListener('submit', function(event) {
-            event.preventDefault(); // Prevent the default form submission
-
-            const formData = new FormData(this);
-            formData.append('ajax', true);
-
-            fetch('racingtimes.php', {
-                method: 'POST',
-                body: formData,
-            })
-                .then(response => response.json())
-                .then(data => {
-                    if (data.success) {
-                        const table = document.getElementById('racingTable');
-                        const newRow = document.createElement('tr');
-
-                        newRow.innerHTML = `
-                            <td class="profile">
-                                <img src="https://via.placeholder.com/40" alt="User Avatar">
-                                <span class="name">${data.record.name}</span>
-                                <span class="country">${data.record.car_type}</span>
-                            </td>
-                            <td>${data.record.time}</td>
-                            <td>${data.record.car_type}</td>
-                            <td>${data.record.date}</td>
-                            <td>${data.record.map}</td>
-                        `;
-                        table.appendChild(newRow);
-                        alert('Record successfully saved.');
-                    } else {
-                        alert('Error: ' + data.error);
-                    }
-                })
-                .catch(error => {
-                    console.error('Error:', error);
-                    alert('An error occurred while saving the record.');
-                });
-        });
-    </script>
 <body>
+<?php
+echo "<table style='border: solid 1px black;  background: black; color: white; width: 200px; position: absolute; left: 0vw; top: 0vh; overflow: scroll;'>";
+echo "<tr><th>ID</th><th>Name</th><th>Time</th><th>map</th><th>Car Type</th>";
 
-    <button id="btn">
-        <a href="../Racing-Times/html/signup.html">Sign up!</a>
-    </button>
-    <button>
-        <a href="../Racing-Times/html/login.html">Login</a>
-    </button>
+$servername = "localhost";
+$username = "root";
+$password = "Superpuck2000";
+$dbname = "db_racetimes";
 
+try {
+    $conn = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password); // Fixed connection string
+    $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+    // Fetching data for the table
+    $stmt = $conn->prepare("SELECT id, name, time, map, car_type FROM tb_racetimes");
+    $stmt->execute();
+
+    // Loop through the results and output them in the table
+    $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+    foreach ($result as $row) {
+        echo "<tr>";
+        echo "<td style='width: 150px; border: 1px solid black;'>" . htmlspecialchars($row['id']) . "</td>";
+        echo "<td style='width: 150px; border: 1px solid black;'>" . htmlspecialchars($row['name']) . "</td>";
+        echo "<td style='width: 150px; border: 1px solid black;'>" . htmlspecialchars($row['time']) . "</td>";
+        echo "<td style='width: 150px; border: 1px solid black;'>" . htmlspecialchars($row['map']) . "</td>";
+        echo "<td style='width: 150px; border: 1px solid black;'>" . htmlspecialchars($row['car_type']) . "</td>";
+        echo "</tr>";
+    }
+} catch (PDOException $e) {
+    echo "Error: " . $e->getMessage();
+}
+$conn = null;
+
+echo "</table>";
+?>
+
+<div>
+    <h1>Racetimes</h1>
     <form action="times.php" method="POST">
         <label for="name">Name:</label>
         <input type="text" id="name" name="name" required><br><br>
-
         <label for="time">Time:</label>
         <input type="time" id="time" name="time" required><br><br>
         <label for="map">Map:</label>	
         <input type="text" id="map" name="map" required><br><br>
         <label for="car_type">Car:</label>
         <input type="text" id="car_type" name="car_type" required><br><br>  
-
         <button type="submit">Submit</button>
-    </form>
-
-    <div class="table-container">
-            <table>
-                <thead>
-                    <tr>
-                        <th>Player</th>
-                        <th>Time</th>
-                        <th>Car Type</th>
-                        <th>Date</th>
-                        <th>Map</th>
-                    </tr>
-                </thead>
-                <tbody id="racingTable">
-                    <?php if (!empty($records)): ?>
-                        <?php foreach ($records as $record): ?>
-                            <tr>
-                                <td class="profile">
-                                    <img src="https://via.placeholder.com/40" alt="User Avatar">
-                                    <span class="name"><?php echo htmlspecialchars($record['name']); ?></span>
-                                    <span class="country"><?php echo strtoupper($record['car_type']); ?></span>
-                                </td>
-                                <td><?php echo htmlspecialchars($record['time']); ?></td>
-                                <td><?php echo htmlspecialchars($record['car_type']); ?></td>
-                                <td><?php echo htmlspecialchars($record['date']); ?></td>
-                                <td><?php echo htmlspecialchars($record['map']); ?></td>
-                            </tr>
-                        <?php endforeach; ?>
-                    <?php else: ?>
-                        <tr>
-                            <td colspan="5">No records found</td>
-                        </tr>
-                    <?php endif; ?>
-                </tbody>
-            </table>
-        </div>
-
-
-    
+        </form>
+</div>
 </body>
 </html>
