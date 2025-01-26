@@ -33,7 +33,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             // Execute the statement to insert the data
             $stmt->execute();
 
-            echo "<h2 style='position: absolute; float:right; background: red; color: white;'>added new racer!</h2>";
+            echo "<h2 style='position: absolute; float:right; background: red; color: white;'>Added new racer!</h2>";
 
         } catch (PDOException $e) {
             echo "Error: " . $e->getMessage();
@@ -97,7 +97,7 @@ echo "</table>";
         <label for="name">Name:</label>
         <input type="text" id="name" name="name" required><br><br>
         <label for="time">Time:</label>
-        <input type="time" id="time" name="time" required><br><br>
+        <input type="time" id="time" name="time" step="2" required><br><br>
         <label for="map">Map:</label>	
         <input type="text" id="map" name="map" required><br><br>
         <label for="car_type">Car:</label>
