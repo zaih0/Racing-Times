@@ -56,7 +56,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <body>
 <?php
 echo "<div class='table-container'>";
-echo "<table style='height: 10px; border: solid 1px black;  background: black; color: black; width: 200px; position: absolute; right:1vw ; top: 0vh; overflow-y: auto;'>";
+echo "<table style='height: 10px; border: solid 1px black;  background: black; color: black; width: 500px; position: absolute; right:1vw ; top: 0vh; overflow-y: auto;'>";
 echo "<tr><th>ID</th><th>Name</th><th>Time</th><th>Map</th><th>Car Type</th>";
 
 $servername = "localhost";

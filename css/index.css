@@ -19,9 +19,9 @@ h1 {
 }
 .table-container {
     position: absolute;
-    top: 0;
-    right: 1vw;
-    width: 400px; /* Adjust the width as needed */
+    top: 10vh;
+    right: 27vw;
+    width: 525px; /* Adjust the width as needed */
     height: 350px; /* Set a fixed height for the scroll area */
     overflow-y: auto; /* Enables vertical scrolling */
     overflow-x: auto; /* Enables horizontal scrolling */
