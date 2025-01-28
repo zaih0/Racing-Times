@@ -18,7 +18,15 @@ h1 {
     color: #2b2d42;
 }
 .table-container {
-    overflow-x: auto;
+    position: absolute;
+    top: 0;
+    right: 1vw;
+    width: 400px; /* Adjust the width as needed */
+    height: 350px; /* Set a fixed height for the scroll area */
+    overflow-y: auto; /* Enables vertical scrolling */
+    overflow-x: auto; /* Enables horizontal scrolling */
+    border: 1px solid black; /* Optional styling */
+    background-color: #2b2d42; /* Ensure a contrasting background */
 }
 table {
     width: 100%;
@@ -77,4 +85,16 @@ td img {
 }
 .form-container button:hover {
     background-color: #1a1e29;
+}
+#red{
+    background-color: red;
+    color: white;
+}
+#green{
+    background-color: green;
+    color: white;
+}
+#blue{
+    background-color: blue;
+    color: white;
 }
