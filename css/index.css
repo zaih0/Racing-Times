@@ -4,6 +4,7 @@ body {
     color: #333;
     margin: 0;
     padding: 0;
+    background-color: skyblue;
 }
 .container {
     width: 80%;
@@ -16,14 +17,51 @@ body {
 h1 {
     text-align: center;
     color: #2b2d42;
+    margin: 0 auto;
 }
 .table-container {
-    overflow-x: auto;
+    position: absolute;
+    top: 10vh;
+    right: 25%;
+    width: 525px; /* Adjust the width as needed */
+    height: 350px; /* Set a fixed height for the scroll area */
+    overflow-y: auto; /* Enables vertical scrolling */
+    overflow-x: auto; /* Enables horizontal scrolling */
+    border: 1px solid black; /* Optional styling */
+    background-color: #2b2d42; /* Ensure a contrasting background */
+    border-radius: 10px;
+}
+form{
+    background-color: #2b2d42;
+    width: 300px;
+    height: 200px;
+    color: white;
+    position: absolute;
+    top: 10vh;
+    left: 5vw;
+    padding: 10px;
+    transition: box-shadow 0.5s;
+    border-radius: 10px;
+}
+form:hover{
+    box-shadow: 0px 0px 20px 10px white;
 }
 table {
     width: 100%;
     border-collapse: collapse;
     margin-top: 20px;
+}
+#phpTable{
+    height: 10px; 
+    border: solid 1px black;  
+    background: black; 
+    color:black; 
+    width: 500px; 
+    position: absolute; 
+    right: 1vw; 
+    top: 0vh; 
+    overflow-y: auto;
+    border-radius: 10px;
 }
 th, td {
     padding: 12px;
@@ -38,43 +76,15 @@ th {
 td {
     background-color: #fff;
 }
-td img {
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-}
-.profile {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-}
-.profile .name {
-    font-weight: bold;
-    font-size: 16px;
-    color: #2b2d42;
-}
-.profile .country {
-    font-size: 12px;
-    color: #666;
-}
-.form-container {
-    text-align: center;
-    margin-top: 20px;
-}
-.form-container input, .form-container button {
-    padding: 10px;
-    margin: 5px;
-    border-radius: 5px;
-    border: 1px solid #ddd;
-}
-.form-container input {
-    width: 200px;
-}
-.form-container button {
-    background-color: #2b2d42;
+#red{
+    background-color: red;
     color: white;
-    cursor: pointer;
 }
-.form-container button:hover {
-    background-color: #1a1e29;
+#green{
+    background-color: green;
+    color: white;
+}
+#blue{
+    background-color: blue;
+    color: white;
 }

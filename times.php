@@ -12,7 +12,7 @@
                 }
             }
 
-            $fetchStmt = $pdo->prepare("SELECT * FROM tb_racingtimes");
+            $fetchStmt = $pdo->prepare("SELECT * FROM tb_racetimes");
             $fetchStmt->execute();
             $records = $fetchStmt->fetchAll(PDO::FETCH_ASSOC);
 
