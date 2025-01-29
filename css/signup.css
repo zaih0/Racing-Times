@@ -1,28 +1,71 @@
-* {box-sizing: border-box}
+* {
+  box-sizing: border-box;
+}
 
-/* Full-width input fields */
-  input[type=text], input[type=password] {
+
+body {
+  font-family: "Electrolize", sans-serif;
+  color: #36213E;
+  background: linear-gradient(to bottom, #4e7ca2, #cbeef5); /* Light gradient background */
+  margin: 0;
+  padding: 0;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+
+.wrapper {
+  width: 90%;
+  max-width: 400px;
+  background: rgba(255, 255, 255, 0.9); 
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+
+body::after {
+  content: "";
+  position: fixed;
+  bottom: 0;
+  left: 0;
   width: 100%;
-  padding: 15px;
-  margin: 5px 0 22px 0;
+  height: 50px;
+  background: linear-gradient(90deg, #3e2d65, #624e8f);
+  z-index: 1;
+}
+
+input[type=text], input[type=password] {
+  width: 100%;
+  padding: 14px 20px;
+  margin: 8px 0;
   display: inline-block;
-  border: none;
-  background: #f1f1f1;
+  border: 1px solid #8AC6D0;
+  background: #e6f7fc;
+  border-radius: 5px;
+  font-family: "Electrolize", sans-serif;
+  font-size: 16px;
+  color: #36213E;
+  transition: all 0.3s ease-in-out;
 }
 
 input[type=text]:focus, input[type=password]:focus {
-  background-color: #ddd;
+  background-color: #d1ecf3;
+  border: 1px solid #63768D;
   outline: none;
 }
 
+
 hr {
-  border: 1px solid #f1f1f1;
+  border: 1px solid #8AA8CB;
   margin-bottom: 25px;
 }
 
-/* Set a style for all buttons */
+
 button {
-  background-color: #04AA6D;
+  background-color: #624e8f;
   color: white;
   padding: 14px 20px;
   margin: 8px 0;
@@ -30,39 +73,64 @@ button {
   cursor: pointer;
   width: 100%;
   opacity: 0.9;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  font-family: "Electrolize", sans-serif;
+  font-size: 16px;
+  transition: background-color 0.3s, opacity 0.3s;
 }
 
 button:hover {
-  opacity:1;
+  opacity: 1;
+  background-color: #4e7ca2;
 }
 
-/* Extra styles for the cancel button */
+
 .cancelbtn {
   padding: 14px 20px;
-  background-color: #f44336;
+  background-color: #4f305b;
 }
 
-/* Float cancel and signup buttons and add an equal width */
+
 .cancelbtn, .signupbtn {
   float: left;
   width: 50%;
+  border-radius: 8px;
 }
 
-/* Add padding to container elements */
-.container {
-  padding: 16px;
+
+@keyframes float {
+  0% { transform: translateY(0); opacity: 1; }
+  50% { transform: translateY(-10px); opacity: 0.8; }
+  100% { transform: translateY(0); opacity: 1; }
 }
 
-/* Clear floats */
-.clearfix::after {
-  content: "";
-  clear: both;
-  display: table;
+.gradient-dots {
+  position: fixed;
+  bottom: 50px;
+  width: 100%;
+  display: flex;
+  justify-content: space-around;
+  pointer-events: none;
 }
 
-/* Change styles for cancel button and signup button on extra small screens */
+.gradient-dots div {
+  width: 15px;
+  height: 15px;
+  background-color: #ffffff;
+  border-radius: 50%;
+  animation: float 3s infinite ease-in-out;
+  animation-delay: calc(0.5s * var(--i));
+}
+
+
 @media screen and (max-width: 300px) {
   .cancelbtn, .signupbtn {
     width: 100%;
   }
+}
+
+form{
+  padding: 10px;
+  background-color: rgba(255, 255, 255, 0.538);
 }
