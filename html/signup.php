@@ -1,7 +1,14 @@
 <?php
 session_start();
 
+<<<<<<< HEAD
 
+=======
+$servername = "localhost";
+$username = "root";
+$password = "root";
+$dbname = "db_racetimes";
+>>>>>>> a4b7996638b878bfaab97495467a9d2fe90c5d3c
 
 try {
     // Verbinden met de database met PDO

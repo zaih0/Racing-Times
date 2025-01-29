@@ -50,7 +50,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 </head>
 <body>
 <?php
-echo "<table style='border: solid 1px black;  background: black; color: black; width: 200px; position: absolute; right:0vw ; top: 0vh; overflow: scroll;'>";
+echo "<div class='table-container'>";
+echo "<table id='phpTable'";
 echo "<tr><th>ID</th><th>Name</th><th>Time</th><th>Map</th><th>Car Type</th>";
 
 
@@ -81,25 +82,34 @@ try {
 $conn = null;
 
 echo "</table>";
+echo "</div>";
 ?>
 
 <div>
     <h1>Racetimes</h1>
     <button id="btn">
-        <a href="../Racing-Times/html/signup.html">Sign up!</a>
+        <a href="html/signup.html">Sign up!</a>
     </button>
     <button>
-        <a href="../Racing-Times/html/login.html">Login</a>
+        <a href="html/login.httml">Login</a>
     </button>
     <form action="index.php" method="POST">
         <label for="name">Name:</label>
         <input type="text" id="name" name="name" required><br><br>
         <label for="time">Time:</label>
-        <input type="time" id="time" name="time" step="2" required><br><br>
+        <input type="timestamp" id="time" name="time" step="2" required><br><br>
         <label for="map">Map:</label>	
-        <input type="text" id="map" name="map" required><br><br>
+        <select name="map" required>
+            <option value="Small">Small</option>
+            <option value="Medium">Medium</option>
+            <option value="Large">Large</option>
+        </select><br><br>
         <label for="car_type">Car:</label>
-        <input type="text" id="car_type" name="car_type" required><br><br>  
+        <select name="car_type" required>
+            <option id="red" value="Red">Red</option>
+            <option id="blue" value="Blue">Blue</option>
+            <option id="green" value="Green">Green</option>
+        </select><br><br>  
         <button type="submit">Submit</button>
         </form>
 </div>
