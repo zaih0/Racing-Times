@@ -52,7 +52,7 @@ echo "</div>";
         <a href="../Racing-Times/html/signup.html">Sign up!</a>
     </button>
     <button>
-        <a href="../Racing-Times/html/login.hml">Login</a>
+        <a href="../Racing-Times/html/login.html">Login</a>
     </button>
     <form action="index.php" method="POST">
         <label for="name">Name:</label>
