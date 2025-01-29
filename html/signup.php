@@ -1,15 +1,17 @@
 <?php
 session_start();
 
-<<<<<<< HEAD
 
-=======
-$servername = "localhost";
+
+
+$host = "localhost";
 $username = "root";
 $password = "root";
 $dbname = "db_racetimes";
->>>>>>> a4b7996638b878bfaab97495467a9d2fe90c5d3c
 
+
+
+require_once '../db_connect.php';
 try {
     // Verbinden met de database met PDO
     $pdo = new PDO("mysql:host=$host;dbname=$dbname", $username, $password);
@@ -39,11 +41,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         try {
             // Voorbereide SQL-query
-            $sql = "INSERT INTO tb_userdata (username, email, password) VALUES (:username, :email, :password)";
+            $sql = "INSERT INTO tb_userdata (name, email, password) VALUES (:name, :email, :password)";
             $stmt = $pdo->prepare($sql);
 
             // Waarden binden
-            $stmt->bindParam(':username', $username);
+            $stmt->bindParam(':name', $username);
             $stmt->bindParam(':email', $email);
             $stmt->bindParam(':password', $hashedPassword);
 
@@ -52,7 +54,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
             // Succesbericht en doorverwijzing naar main.php
             echo "Registratie succesvol!";
-            header("Location: /index.php"); // Doorsturen naar main.php
+            header("Location: ../index.php"); // Doorsturen naar main.php
             exit; // Stop verdere uitvoering van de script
         } catch (PDOException $e) {
             echo "Fout bij opslaan: " . $e->getMessage();

@@ -1,7 +1,7 @@
 <?php
 session_start();
-require_once 'db_connect.php';
 
+require_once 'db_connect.php';
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (isset($_POST["name"]) && isset($_POST["time"]) && isset($_POST["map"]) && isset($_POST["car_type"])) {
 
@@ -27,8 +27,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
             // Execute the statement to insert the data
             $stmt->execute();
-
-            echo "<h2 style='position: absolute; float:right; background: red; color: white;'>Added new racer!</h2>";
 
         } catch (PDOException $e) {
             echo "Error: " . $e->getMessage();
@@ -88,10 +86,10 @@ echo "</div>";
 <div>
     <h1>Racetimes</h1>
     <button id="btn">
-        <a href="html/signup.html">Sign up!</a>
+        <a href="../Racing-Times/html/signup.html">Sign up!</a>
     </button>
     <button>
-        <a href="html/login.httml">Login</a>
+        <a href="../Racing-Times/html/login.html">Login</a>
     </button>
     <form action="index.php" method="POST">
         <label for="name">Name:</label>
