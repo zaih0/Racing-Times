@@ -4,7 +4,7 @@ session_start();
 $servername = "localhost";
 $username = "root";
 $password = "root";
-$dbname = "db_racingtimes";
+$dbname = "db_racetimes";
 
 try {
     // Verbinden met de database met PDO
