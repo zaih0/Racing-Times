@@ -1,14 +1,11 @@
 <?php
 session_start();
 
-$servername = "localhost";
-$username = "root";
-$password = "root";
-$dbname = "db_racingtimes";
+
 
 try {
     // Verbinden met de database met PDO
-    $pdo = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
+    $pdo = new PDO("mysql:host=$host;dbname=$dbname", $username, $password);
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 } catch (PDOException $e) {
     die("Fout bij verbinding: " . $e->getMessage());

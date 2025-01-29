@@ -1,12 +1,51 @@
 <?php
 session_start();
+require_once 'db_connect.php';
+
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    if (isset($_POST["name"]) && isset($_POST["time"]) && isset($_POST["map"]) && isset($_POST["car_type"])) {
+
+        // Retrieve form data
+        $name = $_POST["name"];
+        $time = $_POST["time"];
+        $map = $_POST["map"];
+        $car_type = $_POST["car_type"];
+
+        try {
+            // Establishing a connection to the database
+            $conn = new PDO("mysql:host=$host;dbname=$dbname", $username, $password);
+            $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+            // Prepare SQL statement to insert data
+            $stmt = $conn->prepare("INSERT INTO tb_racetimes (name, time, map, car_type) VALUES (:name, :time, :map, :car_type)");
+
+            // Bind parameters to the prepared statement
+            $stmt->bindParam(':name', $name);
+            $stmt->bindParam(':time', $time);
+            $stmt->bindParam(':map', $map);
+            $stmt->bindParam(':car_type', $car_type);
+
+            // Execute the statement to insert the data
+            $stmt->execute();
+
+            echo "<h2 style='position: absolute; float:right; background: red; color: white;'>Added new racer!</h2>";
+
+        } catch (PDOException $e) {
+            echo "Error: " . $e->getMessage();
+        }
+
+        // Close the database connection
+        $conn = null;
+    }
+}
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="./css/index.css">
+    <link rel="stylesheet" href="../Racing-Times/css/index.css">
     <title>Racing Times</title>
 </head>
 <body>
@@ -39,7 +78,7 @@ try {
 } catch (PDOException $e) {
     echo "Error: " . $e->getMessage();
 }
-
+$conn = null;
 
 echo "</table>";
 ?>
@@ -50,7 +89,7 @@ echo "</table>";
         <a href="../Racing-Times/html/signup.html">Sign up!</a>
     </button>
     <button>
-        <a href="../Racing-Times/html/login.hml">Login</a>
+        <a href="../Racing-Times/html/login.html">Login</a>
     </button>
     <form action="index.php" method="POST">
         <label for="name">Name:</label>
