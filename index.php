@@ -7,11 +7,11 @@ if (isset($_SESSION["username"])) {
     echo " <a href='logout.php'>Logout</a>"; // Logout link
 } 
 //require_once 'db_connect.php';
-    // Database connection parameters
-    $host = 'localhost'; // Database host
-    $dbname = 'db_racetimes'; // Database name
-    $username = 'root'; // Database username
-    $password = 'root'; // Database password
+// Database connection parameters
+$host = 'localhost'; // Database host
+$dbname = 'db_racetimes'; // Database name
+$username = 'root'; // Database username
+$password = 'root'; // Database password
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (isset($_POST["name"]) && isset($_POST["time"]) && isset($_POST["map"]) && isset($_POST["car_type"])) {
@@ -39,6 +39,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             // Execute the statement to insert the data
             $stmt->execute();
 
+            // Redirect to the same page to prevent form resubmission
+            header("Location: " . $_SERVER['PHP_SELF']);
+            exit();
+
         } catch (PDOException $e) {
             echo "Error: " . $e->getMessage();
         }
@@ -47,7 +51,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $conn = null;
     }
 }
-
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -60,10 +63,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <body>
 <?php
 echo "<div class='table-container'>";
-echo "<table id='phpTable'";
+echo "<table id='phpTable'>";
 echo "<tr><th>Name</th><th>Time</th><th>Map</th><th>Car Type</th>";
-
-var_dump($_POST);
 
 try {
     $conn = new PDO("mysql:host=$host;dbname=$dbname", $username, $password); // Fixed connection string
@@ -106,7 +107,7 @@ echo "</div>";
         <input type="text" id="name" name="name" required ><br><br>
         <label for="time">Time:</label>
         <input type="timestamp" id="time" name="time" step="2" required placeholder="00:00:00"><br><br>
-        <label for="map">Map:</label>	
+        <label for="map">Map:</label>    
         <select name="map" required>
             <option value="Small">Small</option>
             <option value="Medium">Medium</option>
@@ -119,7 +120,7 @@ echo "</div>";
             <option id="green" value="Green">Green</option>
         </select><br><br>  
         <button type="submit">Submit</button>
-        </form>
+    </form>
 </div>
 </body>
 </html>
