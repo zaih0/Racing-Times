@@ -48,7 +48,7 @@ if ($user && password_verify($_POST["password"], $user["password"])) {
         $updateStmt->bindParam(':username', $user["username"]);
         $updateStmt->execute();
     
-    
+    session_start();
         // Store user data in session and redirect
     $_SESSION["username"] = $user["username"];
     $_SESSION["user_id"] = $user["id"];

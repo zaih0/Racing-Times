@@ -1,6 +1,11 @@
 <?php
 session_start();
-
+if (isset($_SESSION["username"])) {
+    echo "Welcome, " . htmlspecialchars($_SESSION["username"]) . "!";
+}
+if (isset($_SESSION["username"])) {
+    echo " <a href='logout.php'>Logout</a>"; // Logout link
+} 
 //require_once 'db_connect.php';
     // Database connection parameters
     $host = 'localhost'; // Database host
@@ -98,9 +103,9 @@ echo "</div>";
     </button>
     <form action="index.php" method="POST">
         <label for="name">Name:</label>
-        <input type="text" id="name" name="name" required><br><br>
+        <input type="text" id="name" name="name" required ><br><br>
         <label for="time">Time:</label>
-        <input type="timestamp" id="time" name="time" step="2" required><br><br>
+        <input type="timestamp" id="time" name="time" step="2" required placeholder="00:00:00"><br><br>
         <label for="map">Map:</label>	
         <select name="map" required>
             <option value="Small">Small</option>
