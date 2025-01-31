@@ -1,87 +1,62 @@
 <?php
-    require_once '../db_connect.php';
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+
+// Database connection parameters
+$host = 'localhost'; // Database host
+$dbname = 'db_racetimes'; // Database name
+$username = 'root'; // Database username
+$password = 'root'; // Database password;
+
 try {
-
-    // Verbinden met de database met PDO
-
-    $pdo = new PDO("mysql:host=$host;dbname=$dbname", $username, $password);
-
-    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-
+    $conn = new PDO("mysql:host=$host;dbname=$dbname;charset=utf8", $username, $password);
+    $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    echo "Database connected successfully!"; // Debugging line
 } catch (PDOException $e) {
-
-    die("Fout bij verbinding: " . $e->getMessage());
-
+    die("Database connection failed: " . $e->getMessage());
 }
 
- 
-
-// Controleren of het formulier is ingediend
-
-if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['register'])) {
-
-    $name = $_POST['name'] ?? '';
-    $email = $_POST['email'] ?? '';
-    $password = $_POST['password'] ?? '';
-
-    // Valideren van invoer
-    if (empty($name) || empty($email) || empty($password)) {
-        echo "Alle velden zijn verplicht.";
-    } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-        echo "Ongeldig e-mailadres.";
+if ($_SERVER["REQUEST_METHOD"] === "POST") {
+    echo "Form submitted!<br>"; // Debugging
+    $stmt = $conn->prepare("SELECT * FROM tb_userdata WHERE username = :username");
+    $stmt->bindParam(':username', $_POST["username"]);
+    $stmt->execute();
+    $user = $stmt->fetch(PDO::FETCH_ASSOC);
+    
+}if ($user) {
+        echo "User found in database.<br>";
     } else {
-
-        // Wachtwoord hashen
-        $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
-        try {
-            // Voorbereide SQL-query
-            $sql = "INSERT INTO tb_userdata (name, email, password) VALUES (:name, :email, :password)";
-            $stmt = $pdo->prepare($sql);
-            // Waarden binden
-            $stmt->bindParam(':name', $name);
-            $stmt->bindParam(':email', $email);
-            $stmt->bindParam(':password', $hashedPassword);
-            // Query uitvoeren
-            $stmt->execute();
-            echo "Registratie succesvol!";
-        } catch (PDOException $e) {
-
-            echo "Fout bij opslaan: " . $e->getMessage();
-
-        }
-
+        echo "No user found.<br>";
     }
 
-} elseif ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['login'])) {
-    $email = $_POST['email'] ?? '';
-    $password = $_POST['password'] ?? '';
-    // Valideren van invoer
-    if (empty($email) || empty($password)) {
-        echo "Alle velden zijn verplicht.";
-    } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-        echo "Ongeldig e-mailadres.";
-    } else {
-        try {
-            // Voorbereide SQL-query om gebruiker op te halen
-            $sql = "SELECT * FROM tb_userdata WHERE email = :email";
-            $stmt = $pdo->prepare($sql);
-            // Waarde binden
-            $stmt->bindParam(':email', $email);
-            // Query uitvoeren
-            $stmt->execute();
-            $user = $stmt->fetch(PDO::FETCH_ASSOC);
-            if ($user && password_verify($password, $user['password'])) {
-                echo "Login succesvol! Welkom, " . htmlspecialchars($user['name']) . "!";
-            } else {
-                echo "Ongeldige inloggegevens.";
-            }
-        } catch (PDOException $e) {
-            echo "Fout bij inloggen: " . $e->getMessage();
-        }
-
+    
+if ($user && password_verify($_POST["password"], $user["password"])) {
+    echo "✅ Password verification successful!<br>";
+} else {
+     echo "❌ Password verification failed!<br>";
     }
-
-}
+        // Check if the password needs rehashing (e.g., algorithm update)
+    if (password_needs_rehash($user["password"], PASSWORD_DEFAULT)) {
+        $newHashedPassword = password_hash($_POST["password"], PASSWORD_DEFAULT);
+    
+        // Update the database with the new hashed password
+        $updateStmt = $conn->prepare("UPDATE tb_userdata SET password = :new_password WHERE username = :username");
+        $updateStmt->bindParam(':new_password', $newHashedPassword);
+        $updateStmt->bindParam(':username', $user["username"]);
+        $updateStmt->execute();
+    
+    
+        // Store user data in session and redirect
+    $_SESSION["username"] = $user["username"];
+    $_SESSION["user_id"] = $user["id"];
+    
+    header("Location: ../index.php");
+    exit();
+} else {
+        $error = "Invalid username or password.";
+    }
 
 ?>
-

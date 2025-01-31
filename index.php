@@ -1,7 +1,13 @@
 <?php
 session_start();
 
-require_once 'db_connect.php';
+//require_once 'db_connect.php';
+    // Database connection parameters
+    $host = 'localhost'; // Database host
+    $dbname = 'db_racetimes'; // Database name
+    $username = 'root'; // Database username
+    $password = 'root'; // Database password
+
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (isset($_POST["name"]) && isset($_POST["time"]) && isset($_POST["map"]) && isset($_POST["car_type"])) {
 
@@ -50,9 +56,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <?php
 echo "<div class='table-container'>";
 echo "<table id='phpTable'";
-echo "<tr><th>ID</th><th>Name</th><th>Time</th><th>Map</th><th>Car Type</th>";
+echo "<tr><th>Name</th><th>Time</th><th>Map</th><th>Car Type</th>";
 
-
+var_dump($_POST);
 
 try {
     $conn = new PDO("mysql:host=$host;dbname=$dbname", $username, $password); // Fixed connection string
@@ -67,7 +73,6 @@ try {
 
     foreach ($result as $row) {
         echo "<tr>";
-        echo "<td style='width: 150px; border: 1px solid black;'>" . htmlspecialchars($row['id']) . "</td>";
         echo "<td style='width: 150px; border: 1px solid black;'>" . htmlspecialchars($row['name']) . "</td>";
         echo "<td style='width: 150px; border: 1px solid black;'>" . htmlspecialchars($row['time']) . "</td>";
         echo "<td style='width: 150px; border: 1px solid black;'>" . htmlspecialchars($row['map']) . "</td>";

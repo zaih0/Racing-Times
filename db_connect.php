@@ -6,7 +6,8 @@
     $username = 'root'; // Database username
     $password = 'root'; // Database password
 
-try {
+
+
             // Establishing a connection to the database
             $conn = new PDO("mysql:host=$host;dbname=$dbname", $username, $password);
             $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
@@ -23,11 +24,7 @@ try {
             // Execute the statement to insert the data
             $stmt->execute();
 
-            echo "<h2 style='position: absolute; float:right; background: red; color: white;'>Added new racer!</h2>";
 
-        } catch (PDOException $e) {
-            echo "Error: " . $e->getMessage();
-        }
+
 
         // Close the database connection
-        $conn = null;

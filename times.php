@@ -1,16 +1,8 @@
 <?php
 
     session_start();
+    
 
-
-            // Execute the statement
-                if ($stmt->execute()) {
-                $_SESSION['record_saved'] = true;
-                header("Location: index.php");
-                } else {
-                echo "Error saving record.";
-                }
-            }
 
             $fetchStmt = $pdo->prepare("SELECT * FROM tb_racetimes");
             $fetchStmt->execute();
